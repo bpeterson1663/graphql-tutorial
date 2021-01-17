@@ -57,12 +57,30 @@ const RootQueryType = new GraphQLObjectType({
         books: {
             type: new GraphQLList(BookType),
             description: 'List of books',
-            resolve: () => books
+            args: {
+                name: {type: GraphQLString }
+            },
+            resolve: (parent, args) => {
+                if(args.name){
+                    return books.filter(book => book.name.toLowerCase().includes(args.name.toLowerCase()))
+                }else{
+                    return books
+                }
+            },
         },
         authors: {
             type: new GraphQLList(AuthorType),
             description: 'List of all authors',
-            resolve: () => authors
+            args: {
+                name: {type: GraphQLString}
+            },
+            resolve: (parent, args) => {
+                if(args.name){
+                   return authors.filter(author => author.name.toLowerCase().includes(args.name.toLowerCase()))
+                }else {
+                    return authors
+                }
+            }
         },
         author: {
             type: AuthorType,
