@@ -128,6 +128,22 @@ const RootMutationType =  new GraphQLObjectType({
                 authors.push(author)
                 return author
             }
+        },
+        deleteAuthor: {
+            type: AuthorType,
+            description: 'Delete an author',
+            args: {
+                name: { type: GraphQLNonNull(GraphQLString)}
+            },
+            resolve: (parent, args) => {
+                if(args.name){
+                    authors.filter(author => author.name.toLowerCase().includes(args.name.toLowerCase()))
+                    const author = {name: args.name}
+                    return author
+                }else {
+                     return {name: "error"}
+                 }
+            }
         }
     })
 })
